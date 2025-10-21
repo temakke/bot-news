@@ -12,8 +12,11 @@ load_dotenv()
 # CHAVE DA API 
 key = os.getenv('KEY_NYT')
 
-n = (f'https://api.nytimes.com/svc/topstories/v2/technology.json?api-key={key}')
 
+## ESSE LINK PODE FICAR DESATUALIZADO, PORTANTO, ANTES DE EXECUTAR É BOM TESTA-LO
+## LEMBRANDO QUE A DOCUMENTAÇÃO DA API DISPONIBILIZA ESSA E OUTRA INFORMAÇÕES RELEVANTES PARA O PROJETO.
+
+n = (f'https://api.nytimes.com/svc/news/v3/content/nyt/technology.json?api-key={key}')
 
 class PostTask(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -23,8 +26,8 @@ class PostTask(commands.Cog):
         self.news_publi = set()
         
 
-    # O LOOP ESTÁ DEFINIDO A CADA 20 MINUTOS (1200 SECONDS)
-    @tasks.loop(seconds=1200)
+    # O LOOP ESTÁ DEFINIDO A CADA 30 MINUTOS
+    @tasks.loop(minutes=30)
     async def very(self):
 
         try:
@@ -36,7 +39,7 @@ class PostTask(commands.Cog):
             for news in news_list:
                 
                 # SUBSTITUA PELO ID DO CANAL DESEJADO 
-                channel_id = channel_id
+                channel_id = 1430188743712837682
 
                 if news["published_date"] not in self.news_publi:
                     post = self.bot.get_channel(channel_id)
